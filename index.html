@@ -34,6 +34,10 @@
     font-size: 14px;
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   /* ── TOP BAR ── */
@@ -46,9 +50,7 @@
     align-items: center;
     justify-content: space-between;
     flex-shrink: 0;
-    z-index: 200;
-    position: sticky;
-    top: 0;
+    z-index: 100;
   }
   .topbar-left {
     display: flex;
@@ -100,105 +102,14 @@
     color: var(--gray-2);
   }
 
-  /* ── HAMBURGER (mobile only) ── */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 4px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px;
-    margin-left: 0.5rem;
-  }
-  .hamburger span {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: rgba(255,255,255,0.7);
-    border-radius: 1px;
-    transition: background 0.15s;
-  }
-  .hamburger:hover span { background: #fff; }
-
-  /* ── MOBILE DRAWER OVERLAY ── */
-  .drawer-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 300;
-  }
-  .drawer-overlay.open { display: block; }
-
-  /* ── MOBILE DRAWER ── */
-  .mobile-drawer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 280px;
-    max-width: 85vw;
-    background: var(--black-2);
-    z-index: 400;
+  /* ── MAIN LAYOUT ── */
+  .main {
     display: flex;
-    flex-direction: column;
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
-    overflow-y: auto;
-  }
-  .mobile-drawer.open { transform: translateX(0); }
-
-  .drawer-header {
-    background: var(--black);
-    border-bottom: 3px solid var(--red);
-    padding: 0 1rem;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-shrink: 0;
-  }
-  .drawer-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
-  }
-  .drawer-close {
-    background: none;
-    border: none;
-    color: rgba(255,255,255,0.5);
-    font-size: 20px;
-    cursor: pointer;
-    padding: 4px 8px;
-    line-height: 1;
-  }
-  .drawer-close:hover { color: #fff; }
-
-  .drawer-body {
     flex: 1;
-    overflow-y: auto;
-    padding: 0.75rem 0;
+    overflow: hidden;
   }
 
-  .drawer-footer {
-    padding: 1rem;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .drawer-footer p {
-    font-size: 10px;
-    color: rgba(255,255,255,0.2);
-    line-height: 1.6;
-  }
-  .drawer-footer strong { color: rgba(255,255,255,0.4); }
-
-  /* ── DESKTOP LAYOUT ── */
-  .desktop-shell {
-    display: flex;
-    height: calc(100vh - 56px);
-  }
-
-  /* ── SIDEBAR (desktop) ── */
+  /* ── SIDEBAR ── */
   .sidebar {
     width: var(--sidebar-w);
     background: var(--black-2);
@@ -207,9 +118,6 @@
     flex-direction: column;
     flex-shrink: 0;
     overflow-y: auto;
-    position: sticky;
-    top: 56px;
-    height: calc(100vh - 56px);
   }
 
   .sidebar-section {
@@ -227,7 +135,6 @@
     padding: 0 1rem 0.5rem;
   }
 
-  /* Shared sidebar nav styles (used in both desktop sidebar and mobile drawer) */
   .month-group { margin-bottom: 0.25rem; }
 
   .month-header {
@@ -317,6 +224,7 @@
   }
   .week-item.active .week-issue { color: rgba(200,16,46,0.7); }
 
+  /* Placeholder weeks (future, no content) */
   .week-item.empty { opacity: 0.4; cursor: default; }
   .week-item.empty:hover { background: none; }
 
@@ -482,20 +390,10 @@
   .leader-type { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 6px; border-radius: 2px; margin-right: 5px; }
   .leader-type.yt { background: #ffeaea; color: #c0392b; }
   .leader-type.press { background: var(--bg-2); color: var(--black-3); }
+  .leader-type.event { background: #e8f4fd; color: #1a5c8a; }
   .leader-type.none { background: var(--bg-3); color: var(--gray-2); }
   .leader-date { font-size: 10px; color: var(--gray-2); }
   .leader-note { font-size: 10.5px; color: var(--gray-2); background: var(--bg-2); padding: 0.45rem 1rem; border-top: 1px solid var(--rule); font-style: italic; }
-
-  .report-footer {
-    background: var(--black);
-    border-top: 3px solid var(--red);
-    color: var(--gray-2);
-    text-align: center;
-    padding: 1.25rem 2rem;
-    font-size: 11px;
-    line-height: 1.9;
-  }
-  .report-footer a { color: var(--red); text-decoration: none; }
 
   /* ── EMPTY STATE ── */
   .empty-state {
@@ -512,85 +410,6 @@
   .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
   .empty-state h3 { font-size: 1rem; font-weight: 600; color: var(--gray); margin-bottom: 0.5rem; }
   .empty-state p { font-size: 12.5px; line-height: 1.6; max-width: 280px; }
-
-  /* ═══════════════════════════════════════
-     MOBILE RESPONSIVE — ≤ 768px
-  ════════════════════════════════════════ */
-  @media (max-width: 768px) {
-
-    body { font-size: 15px; }
-
-    /* Show hamburger, hide desktop meta */
-    .hamburger { display: flex; }
-    .topbar-meta { display: none; }
-    .topbar-title span { display: none; }
-
-    /* Desktop shell becomes a simple block — no fixed height, no overflow */
-    .desktop-shell {
-      display: block;
-      height: auto;
-    }
-
-    /* Hide the desktop sidebar */
-    .sidebar { display: none; }
-
-    /* Content flows naturally */
-    .content {
-      overflow-y: visible;
-      height: auto;
-    }
-
-    /* Report page padding */
-    .page {
-      padding: 1.25rem 1rem 2.5rem;
-    }
-
-    /* Masthead stacks */
-    .masthead-inner {
-      grid-template-columns: 1fr;
-      padding: 1.5rem 1rem 1.25rem;
-      gap: 1rem;
-    }
-    .masthead h1 { font-size: 1.65rem; }
-    .masthead-meta { text-align: left; }
-
-    /* Entity bar */
-    .entity-bar-inner { padding: 0.5rem 1rem; gap: 0.35rem; }
-
-    /* Exec wrap */
-    .exec-wrap { padding: 1.25rem 1rem; }
-
-    /* Cards: single column on mobile */
-    .cards { grid-template-columns: 1fr; }
-    .full { grid-column: 1; }
-
-    /* Leader grid: single column */
-    .leader-grid { grid-template-columns: 1fr; }
-
-    /* Events grid: single column */
-    .events-grid { grid-template-columns: 1fr; }
-
-    /* AI wrap */
-    .ai-wrap { padding: 1.25rem 1rem; border-radius: 0; }
-
-    /* Exec numbers smaller */
-    .exec-n { font-size: 1.4rem; width: 22px; }
-
-    /* Section head */
-    .sec-title { font-size: 1.1rem; }
-
-    /* Card headers allow wrapping */
-    .card-hd { gap: 0.4rem; }
-    .date-stamp { width: 100%; margin-left: 0; margin-top: 0.15rem; }
-
-    /* Report footer */
-    .report-footer { padding: 1rem; font-size: 10.5px; }
-  }
-
-  @media (max-width: 420px) {
-    .masthead h1 { font-size: 1.4rem; }
-    .topbar-badge { display: none; }
-  }
 </style>
 </head>
 <body>
@@ -604,109 +423,45 @@
   <div class="topbar-right">
     <span class="topbar-badge">Live</span>
     <span class="topbar-meta">Abu Dhabi Economic Development · 2026</span>
-    <!-- Hamburger: mobile only -->
-    <button class="hamburger" onclick="openDrawer()" aria-label="Open archive">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </div>
 
-<!-- MOBILE DRAWER OVERLAY -->
-<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<!-- MAIN -->
+<div class="main">
 
-<!-- MOBILE DRAWER -->
-<div class="mobile-drawer" id="mobile-drawer">
-  <div class="drawer-header">
-    <span class="drawer-title">Reports Archive</span>
-    <button class="drawer-close" onclick="closeDrawer()">✕</button>
-  </div>
-  <div class="drawer-body">
-    <!-- MAY 2026 -->
-    <div class="month-group">
-      <div class="month-header open" onclick="toggleMonth(this)">
-        <span class="month-name">May 2026</span>
-        <span class="month-count">1</span>
-        <span class="month-chevron">›</span>
-      </div>
-      <div class="week-list open">
-        <div class="week-item active" onclick="showReport('report-may-14', this)">
-          <div class="week-dot"></div>
-          <span class="week-label">14 May 2026<br><span style="font-size:10px;opacity:0.6;">Week 1 of May</span></span>
-          <span class="week-issue">#1</span>
-        </div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">21 May 2026<br><span style="font-size:10px;opacity:0.6;">Coming next week</span></span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">28 May 2026</span></div>
-      </div>
-    </div>
-    <!-- JUNE 2026 -->
-    <div class="month-group">
-      <div class="month-header" onclick="toggleMonth(this)">
-        <span class="month-name">June 2026</span>
-        <span class="month-count">0</span>
-        <span class="month-chevron">›</span>
-      </div>
-      <div class="week-list">
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">4 Jun 2026</span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">11 Jun 2026</span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">18 Jun 2026</span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">25 Jun 2026</span></div>
-      </div>
-    </div>
-    <!-- JULY 2026 -->
-    <div class="month-group">
-      <div class="month-header" onclick="toggleMonth(this)">
-        <span class="month-name">July 2026</span>
-        <span class="month-count">0</span>
-        <span class="month-chevron">›</span>
-      </div>
-      <div class="week-list">
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">2 Jul 2026</span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">9 Jul 2026</span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">16 Jul 2026</span></div>
-        <div class="week-item empty"><div class="week-dot"></div><span class="week-label">23 Jul 2026</span></div>
-      </div>
-    </div>
-  </div>
-  <div class="drawer-footer">
-    <p><strong>Entities monitored</strong><br>DED · ADIO · KFED · ADGM · QCC · AD Customs · ADRA</p>
-    <br>
-    <p>New reports added every Monday. Generated with Claude AI + live web search.</p>
-  </div>
-</div>
-
-<!-- DESKTOP SHELL -->
-<div class="desktop-shell">
-
-  <!-- DESKTOP SIDEBAR -->
+  <!-- SIDEBAR -->
   <div class="sidebar">
     <div class="sidebar-section">
       <div class="sidebar-label">Reports Archive</div>
 
-      <!-- MAY 2026 -->
+      <!-- MAY 2026 — current month, expanded -->
       <div class="month-group">
         <div class="month-header open" onclick="toggleMonth(this)">
           <span class="month-name">May 2026</span>
-          <span class="month-count">1</span>
+          <span class="month-count">2</span>
           <span class="month-chevron">›</span>
         </div>
         <div class="week-list open">
-          <div class="week-item active" onclick="showReport('report-may-14', this)">
+          <!-- Issue #2 — newest first -->
+          <div class="week-item active" onclick="showReport('report-may-19', this)">
             <div class="week-dot"></div>
-            <span class="week-label">14 May 2026<br><span style="font-size:10px;opacity:0.6;">Week 1 of May</span></span>
+            <span class="week-label">19 May 2026<br><span style="font-size:10px;opacity:0.6;">Week 2 of May</span></span>
+            <span class="week-issue">#2</span>
+          </div>
+          <!-- Issue #1 -->
+          <div class="week-item" onclick="showReport('report-may-12', this)">
+            <div class="week-dot"></div>
+            <span class="week-label">12 May 2026<br><span style="font-size:10px;opacity:0.6;">Week 1 of May</span></span>
             <span class="week-issue">#1</span>
           </div>
           <div class="week-item empty">
             <div class="week-dot"></div>
-            <span class="week-label">21 May 2026<br><span style="font-size:10px;opacity:0.6;">Coming next week</span></span>
-          </div>
-          <div class="week-item empty">
-            <div class="week-dot"></div>
-            <span class="week-label">28 May 2026</span>
+            <span class="week-label">26 May 2026</span>
           </div>
         </div>
       </div>
 
-      <!-- JUNE 2026 -->
+      <!-- JUNE 2026 (placeholder) -->
       <div class="month-group">
         <div class="month-header" onclick="toggleMonth(this)">
           <span class="month-name">June 2026</span>
@@ -714,14 +469,15 @@
           <span class="month-chevron">›</span>
         </div>
         <div class="week-list">
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">4 Jun 2026</span></div>
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">11 Jun 2026</span></div>
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">18 Jun 2026</span></div>
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">25 Jun 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">2 Jun 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">9 Jun 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">16 Jun 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">23 Jun 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">30 Jun 2026</span></div>
         </div>
       </div>
 
-      <!-- JULY 2026 -->
+      <!-- JULY 2026 (placeholder) -->
       <div class="month-group">
         <div class="month-header" onclick="toggleMonth(this)">
           <span class="month-name">July 2026</span>
@@ -729,10 +485,10 @@
           <span class="month-chevron">›</span>
         </div>
         <div class="week-list">
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">2 Jul 2026</span></div>
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">9 Jul 2026</span></div>
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">16 Jul 2026</span></div>
-          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">23 Jul 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">7 Jul 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">14 Jul 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">21 Jul 2026</span></div>
+          <div class="week-item empty"><div class="week-dot"></div><span class="week-label">28 Jul 2026</span></div>
         </div>
       </div>
 
@@ -745,23 +501,472 @@
     </div>
   </div>
 
-  <!-- CONTENT AREA -->
+  <!-- CONTENT -->
   <div class="content" id="content-area">
 
     <!-- ═══════════════════════════════════════════
-         REPORT: 14 MAY 2026
+         REPORT: 19 MAY 2026 — ISSUE #2
     ════════════════════════════════════════════ -->
-    <div id="report-may-14" class="report-wrap">
+    <div id="report-may-19" class="report-wrap">
 
       <div class="masthead">
         <div class="masthead-inner">
           <div>
             <div class="masthead-eyebrow">Abu Dhabi Department of Economic Development · Intelligence Report</div>
-            <h1>Weekly Briefing<br><span>14 May 2026</span></h1>
+            <h1>Weekly Briefing<br><span>19 May 2026</span></h1>
+          </div>
+          <div class="masthead-meta">
+            <strong>Issue #2</strong>
+            Coverage: 12 – 18 May 2026<br>
+            Entities: DED · ADIO · ADGM · QCC · DCT<br>
+            Themes: Infrastructure · Agentic AI · FDI
+          </div>
+        </div>
+      </div>
+
+      <div class="entity-bar">
+        <div class="entity-bar-inner">
+          <span class="eb-label">Monitoring</span>
+          <span class="epill live">DED</span>
+          <span class="epill live">ADIO</span>
+          <span class="epill live">Khalifa Fund</span>
+          <span class="epill live">ADGM</span>
+          <span class="epill live">QCC</span>
+          <span class="epill">AD Customs</span>
+          <span class="epill">ADRA</span>
+          <span class="epill live">AI & Agentic</span>
+        </div>
+      </div>
+
+      <div class="page">
+
+        <!-- 01 EXEC SUMMARY -->
+        <div class="exec-wrap">
+          <div class="sec-head">
+            <span class="sec-num">01</span>
+            <span class="sec-title">Executive Summary</span>
+          </div>
+          <div class="exec-row">
+            <div class="exec-n">1</div>
+            <p><strong>Sheikh Mohammed personally reviews Agentic AI framework progress (12 May)</strong> — a cabinet-level briefing with the Minister of Cabinet Affairs and Minister of State for AI signals the programme is moving from announcement to active delivery. All government ministries now have AI readiness under direct leadership oversight. <span class="badge-hi">⚡ High Impact</span></p>
+          </div>
+          <div class="exec-row">
+            <div class="exec-n">2</div>
+            <p><strong>Abu Dhabi confirms largest infrastructure spending wave in UAE history</strong> — at ADIS 2026 (12–14 May), UAE Energy Minister Suhail Al Mazrouei stated that what will be delivered over the next 4–6 years equals 50 years of prior construction, at 60–70% higher efficiency. Abu Dhabi accounts for more than half of all UAE infrastructure and transport investment through 2030. ADPIC oversees a AED 209bn capital projects portfolio covering 500+ active projects. <span class="badge-hi">⚡ High Impact</span></p>
+          </div>
+          <div class="exec-row">
+            <div class="exec-n">3</div>
+            <p><strong>Abu Dhabi lands the Sphere — $1.7bn immersive venue on Yas Island, first outside the US (14 May)</strong> — DCT Abu Dhabi and Sphere Entertainment Co. confirmed the project, with completion targeted for 2029. The announcement signals Abu Dhabi's deepening bet on experiential tourism as an economic diversification driver, following the OPEC exit which freed Abu Dhabi to redirect oil revenues into domestic investment at pace.</p>
+          </div>
+        </div>
+
+        <!-- 02 LEADERSHIP SIGNALS -->
+        <div class="sec-block">
+          <div class="sec-head">
+            <span class="sec-num">02</span>
+            <span class="sec-title">Leadership Signals</span>
+          </div>
+          <p style="font-size:12px; color:var(--gray); margin-bottom:1.25rem; line-height:1.6;">Public appearances, statements, interviews and media by key leaders this week. Sources: WAM, Gulf News, The National, Zawya, Milken Institute. <em>LinkedIn & Instagram not accessible via web search — flag appearances if pasted in.</em></p>
+          <div class="leader-grid">
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">AZ</div>
+                <div>
+                  <div class="leader-name">H.E. Ahmed Jasim Al Zaabi</div>
+                  <div class="leader-role">Chairman · DED · ADGM · KFED · QCC</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type event">🎤 Conference</span><span class="leader-date">3–6 May 2026</span>
+                  <p>Led ADGM delegation to the Milken Institute Global Conference in Los Angeles. Participated in a keynote conversation titled "Driving Global Financial Innovation," positioning Abu Dhabi as the connector of capital between the Global North and South. Disclosed ADGM issued 284 new licences in March 2026 — a 5.2% year-on-year increase.</p>
+                  <a href="https://gulfnews.com/uae/adgm-draws-global-financial-giants-managing-44-trillion-to-establish-operations-in-abu-dhabi-1.500539438" target="_blank">Gulf News ↗</a>
+                </div>
+                <div class="leader-item">
+                  <span class="leader-type press">📰 Press</span><span class="leader-date">13 May 2026</span>
+                  <p>Quoted following ADGM's Milken participation: "We are building a financial centre that anticipates the needs of the future by combining openness with institutional strength, and connectivity with long-term capital. This is what we mean when we say Abu Dhabi is the Capital of Capital."</p>
+                  <a href="https://gulfnews.com/uae/adgm-draws-global-financial-giants-managing-44-trillion-to-establish-operations-in-abu-dhabi-1.500539438" target="_blank">Gulf News ↗</a>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">JA</div>
+                <div>
+                  <div class="leader-name">Jasem Alawadhi</div>
+                  <div class="leader-role">Head of Economic Strategy Oversight · DED</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type none">— No appearances found</span>
+                  <p style="margin-top:0.35rem;">No public statements, press quotes, or media appearances identified this week. Monitoring ADDED official channels and WAM.</p>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">MN</div>
+                <div>
+                  <div class="leader-name">H.E. Mouza Obaid Al Nasri</div>
+                  <div class="leader-role">CEO · Khalifa Fund (KFED)</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type none">— No appearances found this week</span>
+                  <p style="margin-top:0.35rem;">No new public appearances identified. KFED's post-MIITE 2026 activity (MoU follow-through with Etihad, HCT, UAEU, Rotana) continues — monitoring for implementation announcements.</p>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">EA</div>
+                <div>
+                  <div class="leader-name">H.E. Eid Alobeidli</div>
+                  <div class="leader-role">Director PPP & Musataha · ADIO</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type none">— No new appearances found</span>
+                  <p style="margin-top:0.35rem;">No additional statements this week. ADIO's AED 55bn PPP pipeline launch (announced 11 May at ADIS 2026) continues to receive coverage. First tender issuances being monitored.</p>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">FS</div>
+                <div>
+                  <div class="leader-name">H.E. Eng. Fahad Ghareeb Al Shamsi</div>
+                  <div class="leader-role">Acting Secretary General · QCC</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type none">— No appearances found</span>
+                  <p style="margin-top:0.35rem;">No public appearances or statements identified this week. Monitoring QCC official channels and WAM for follow-up on the Quality Hub launch and toxicology activation from last week.</p>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">RL</div>
+                <div>
+                  <div class="leader-name">H.E. Rashed Lahej Al Mansoori</div>
+                  <div class="leader-role">Director General · AD Customs</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type none">— No appearances found</span>
+                  <p style="margin-top:0.35rem;">No public statements or appearances this week. Monitoring WAM and Abu Dhabi Customs official channels.</p>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+            <div class="leader-card">
+              <div class="leader-hd">
+                <div class="leader-avatar">MM</div>
+                <div>
+                  <div class="leader-name">H.E. Mohamed Munif Al Mansoori</div>
+                  <div class="leader-role">Director General · ADRA</div>
+                </div>
+              </div>
+              <div class="leader-bd">
+                <div class="leader-item">
+                  <span class="leader-type none">— No appearances found</span>
+                  <p style="margin-top:0.35rem;">No new public appearances this week. ADRA's industrial compliance activity (1,299 inspections in 2025, support for 35% of licenses entering production) noted in ADDED MIITE coverage from prior week.</p>
+                </div>
+              </div>
+              <div class="leader-note">⚠️ LinkedIn/Instagram not yet connected.</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 03 ENTITIES -->
+        <div class="sec-block">
+          <div class="sec-head">
+            <span class="sec-num">03</span>
+            <span class="sec-title">DED & Key Entities</span>
+          </div>
+          <div class="cards">
+
+            <div class="card full">
+              <div class="card-hd">
+                <div class="cdot cdot-red"></div>
+                <span class="card-entity">ADIO & ADPIC — Abu Dhabi Infrastructure Summit (ADIS 2026)</span>
+                <span class="badge-hi">⚡ High Impact</span>
+                <span class="date-stamp">12–14 May 2026</span>
+              </div>
+              <div class="card-bd">
+                <p class="card-what">The second edition of ADIS 2026 at ADNEC confirmed Abu Dhabi as the dominant force in UAE infrastructure investment. UAE Energy Minister Suhail Al Mazrouei stated Abu Dhabi accounts for more than half of all UAE infrastructure and transport spending over the next four years, covering roads, railways, metro systems, and high-speed rail. What will be built in the next 4–6 years equals 50 years of prior construction — at 60–70% greater efficiency. ADPIC currently oversees a <strong>AED 209 billion portfolio across 500+ capital projects</strong>. The Modon, Aldar, Bloom Holding, ADHA, Etihad Rail, ADIO and LEAD Development coalition was confirmed as ADIS execution partners. Abu Dhabi targets delivery of 40,000+ homes and residential plots by 2029.</p>
+                <div class="card-why"><strong>Why it matters:</strong> These are not pipeline ambitions — they are projects already under ADPIC management. With the OPEC exit freeing Abu Dhabi from production quota constraints, the emirate is routing revenue into domestic construction at a pace that creates a multi-year procurement opportunity for private sector players across infrastructure, logistics, materials, and technology.</div>
+                <div class="card-src">Sources: <a href="https://gulfnews.com/business/property/adis-2026-abu-dhabi-unveils-dh209b-infrastructure-push-for-future-smart-cities-1.500538814" target="_blank">Gulf News ↗</a> · <a href="https://www.zawya.com/en/economy/gcc/abu-dhabi-leads-largest-infrastructure-spending-wave-over-next-4-years-suhail-al-mazrouei-ad3qnjsu" target="_blank">Zawya ↗</a> · <a href="https://economymiddleeast.com/news/abu-dhabi-infrastructure-summit-unites-developers-and-investors-to-advance-57-billion-infrastructure-agenda/" target="_blank">Economy Middle East ↗</a></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-hd">
+                <div class="cdot cdot-black"></div>
+                <span class="card-entity">ADGM — Milken Institute 2026</span>
+                <span class="badge-hi">⚡ High Impact</span>
+                <span class="date-stamp">13 May 2026</span>
+              </div>
+              <div class="card-bd">
+                <p class="card-what">ADGM confirmed it wrapped up Milken Institute Global Conference participation with 8 major global financial institutions managing a combined <strong>$4.4 trillion AUM</strong> having committed to establish Abu Dhabi presences since April. ADGM's March 2026 licensing issuance hit 284 new licences (up 5.2% year-on-year). Al Zaabi reinforced the "Capital of Capital" positioning with global policymakers, sovereign funds, and asset management leaders.</p>
+                <div class="card-why"><strong>Why it matters:</strong> The momentum has now compounded across three consecutive months (April–May) with no signs of decelerating. ADGM is running the world's most effective financial centre attraction programme right now. The scale of AUM committed — $4.4tn from 8 firms in a single month — is without recent global precedent.</div>
+                <div class="card-src">Sources: <a href="https://gulfnews.com/uae/adgm-draws-global-financial-giants-managing-44-trillion-to-establish-operations-in-abu-dhabi-1.500539438" target="_blank">Gulf News ↗</a> · <a href="https://milkeninstitute.org/content-hub/event-panels/driving-global-financial-innovation-conversation-adgm-chairman-he-ahmed-jasim-al-zaabi" target="_blank">Milken Institute ↗</a></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-hd">
+                <div class="cdot cdot-teal"></div>
+                <span class="card-entity">DCT Abu Dhabi — Sphere Abu Dhabi</span>
+                <span class="date-stamp">14 May 2026</span>
+              </div>
+              <div class="card-bd">
+                <p class="card-what">DCT Abu Dhabi and Sphere Entertainment Co. (NYSE: SPHR) confirmed <strong>Sphere Abu Dhabi on Yas Island</strong> — a $1.7bn immersive entertainment venue and the first Sphere outside the United States. Located between Yas Mall and SeaWorld Abu Dhabi. Capacity: 20,000. Completion: end of 2029. Programming will include immersive Sphere Experiences, regional and international artists, and Emirati culture displayed on the external LED Exosphere.</p>
+                <div class="card-why"><strong>Why it matters:</strong> The Sphere is not a conventional venue deal — it is a tech-entertainment megaproject that positions Abu Dhabi as a destination for a category of global experience that did not previously exist outside Las Vegas. It reinforces the post-OPEC investment thesis: oil revenue redirected into non-oil economic anchors that generate recurring tourism GDP.</div>
+                <div class="card-src">Sources: <a href="https://news.cgtn.com/news/2026-05-15/Abu-Dhabi-continues-to-advance-economic-diversification-strategy--1NamsLdp10k/p.html" target="_blank">CGTN ↗</a> · <a href="https://www.prnewswire.com/news-releases/yas-island-to-be-home-of-sphere-abu-dhabi-a-new-global-icon-for-immersive-entertainment-302772533.html" target="_blank">PR Newswire ↗</a></div>
+              </div>
+            </div>
+
+            <div class="card full">
+              <div class="card-hd">
+                <div class="cdot cdot-red"></div>
+                <span class="card-entity">UAE / Abu Dhabi — OPEC Exit &amp; Domestic Investment Surge</span>
+                <span class="badge-hi">⚡ High Impact</span>
+                <span class="date-stamp">Effective 1 May 2026 · Confirmed at ADIS 12–14 May</span>
+              </div>
+              <div class="card-bd">
+                <p class="card-what">The UAE's OPEC departure (effective 1 May, after 59 years of membership) was confirmed as the strategic backdrop to Abu Dhabi's infrastructure acceleration at ADIS 2026. With all production quotas removed, Abu Dhabi targets <strong>5 million barrels per day by 2027</strong> (up from ~3.5m), monetising reserves via the Habshan-Fujairah pipeline that bypasses the Strait of Hormuz. AGBI analysis confirmed at ADIS that $57bn in government infrastructure investment is progressing across 500 projects — a construction programme explicitly enabled by the removal of production ceilings. UAE Energy Minister Al Mazrouei stated the country intends to become "an advanced industrial nation based on high technology."</p>
+                <div class="card-why"><strong>Why it matters:</strong> The OPEC exit is the fiscal enabler of everything Abu Dhabi is building. DED and ADIO now operate in a context where the sovereign is unconstrained in revenue deployment. The $57bn infrastructure pipeline, AED 55bn PPP programme, and Sphere investment are not isolated decisions — they are coordinated expressions of a single post-OPEC capital deployment strategy.</div>
+                <div class="card-src">Sources: <a href="https://www.agbi.com/construction/2026/05/abu-dhabi-plans-construction-rush-after-quitting-opec/" target="_blank">AGBI ↗</a> · <a href="https://www.arabtimesonline.com/news/uae-plans-massive-infrastructure-spending-wave-led-by-abu-dhabi-at-adis-2026/" target="_blank">Arab Times ↗</a> · <a href="https://www.zawya.com/en/business/investment/abu-dhabi-infrastructure-summit-unites-developers-investment-bodies-in-57bln-infrastructure-drive-uenp5f2p" target="_blank">Zawya ↗</a></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-hd">
+                <div class="cdot cdot-gray"></div>
+                <span class="card-entity">DED (ADDED) — Industrial Sector Performance</span>
+                <span class="date-stamp">Coverage: 2025 full-year, reported May 2026</span>
+              </div>
+              <div class="card-bd">
+                <p class="card-what">ADDED reported industrial sector results at MIITE 2026 coverage: <strong>411 new industrial licences in 2025</strong> (up 20% vs 2024), 206 reaching construction phase (+37%), and 115 reaching full operation (+53%). ADRA conducted 1,299 inspection visits across the industrial sector, with technical audit teams supporting 35% of licences transitioning to production. H.E. Hamad Sayah Al Mazrouei (Undersecretary, ADDED) attributed results to regulatory reforms, talent development, and the ADIS industrial strategy framework.</p>
+                <div class="card-why"><strong>Why it matters:</strong> These are leading indicators of Abu Dhabi's industrial pipeline depth. The 53% surge in factories reaching full operation signals policy effectiveness — and a growing base of productive industrial entities generating non-oil GDP. ADRA's audit role is emerging as a critical quality gate in Abu Dhabi's manufacturing scale-up.</div>
+                <div class="card-src">Source: <a href="https://economymiddleeast.com/news/make-it-in-the-emirates-2026-abu-dhabi-sees-53-percent-surge-in-industrial-establishments-moving-to-full-operation-in-2025/" target="_blank">Economy Middle East ↗</a></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-hd">
+                <div class="cdot cdot-purple"></div>
+                <span class="card-entity">ADGM — Bank of Palestine ADGM Licence</span>
+                <span class="date-stamp">May 2026</span>
+              </div>
+              <div class="card-bd">
+                <p class="card-what">Bank of Palestine received in-principle approval for a full banking licence at ADGM, enabling international expansion from Abu Dhabi. The approval reflects ADGM's broadening geographic reach as a financial jurisdiction — now facilitating access not only for Western asset managers but for regional and emerging-market institutions.</p>
+                <div class="card-why"><strong>Why it matters:</strong> ADGM's licensing momentum is not limited to mega-AUM Western asset managers. The Bank of Palestine approval signals ADGM is deepening its role as a bridge between Gulf capital and emerging-market banking — a distinct value proposition from competing centres.</div>
+                <div class="card-src">Source: <a href="https://www.adgm.com/media/announcements" target="_blank">ADGM Announcements ↗</a></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 04 AI WATCH -->
+        <div class="ai-wrap">
+          <div class="sec-head">
+            <span class="sec-num">04</span>
+            <span class="sec-title">AI & Agentic Watch</span>
+          </div>
+
+          <div class="ai-item">
+            <div class="ai-item-hd">
+              <h4>Sheikh Mohammed personally reviews Agentic AI implementation progress — framework moves from announcement to delivery</h4>
+              <span class="badge-hi">⚡ High Impact</span>
+              <span class="ai-date">12 May 2026</span>
+            </div>
+            <p>Sheikh Mohammed bin Rashid, accompanied by Sheikh Hamdan bin Mohammed, conducted a formal review of the UAE government Agentic AI framework project at the Ministry of Cabinet Affairs. He was briefed by Minister of Cabinet Affairs Mohammad Al Gergawi and Minister of State for AI Omar Sultan Al Olama on progress toward transforming 50% of government processes into autonomous AI systems. Sheikh Mohammed stated: "Our teams are leading this national transformation. Their ability to work with future technologies is key to our success." The initiative aims to use integrated federal data and advanced digital infrastructure to enable AI systems to execute tasks and make decisions independently across half of all government services within two years.</p>
+            <div class="signal">
+              <div class="signal-lbl">⬡ Agentic Transformation Signal</div>
+              <p>A personal review at PM level — not a policy announcement, but an implementation check-in — signals the programme has entered active delivery. Organisations targeting government partnerships in Abu Dhabi should treat the two-year clock as real, not aspirational. The ministerial briefing structure (Cabinet Affairs + AI Ministry together) signals a cross-departmental coordination layer is now active, which will cascade into procurement and vendor requirements across all federal entities.</p>
+            </div>
+            <div class="ai-src">Sources: <a href="https://mediaoffice.ae/en/news/2026/may/12-05/mohammed-bin-rashid-reviews-progress-of-ai-integration" target="_blank">UAE Media Office ↗</a> · <a href="https://gulfnews.com/uae/sheikh-mohammed-reviews-progress-of-project-to-deploy-agentic-ai-across-50-of-government-sectors-within-2-years-1.500538266" target="_blank">Gulf News ↗</a></div>
+          </div>
+
+          <div class="ai-item">
+            <div class="ai-item-hd">
+              <h4>AI-native government workforce: DGE targets AI skills platform for all federal employees by 2027</h4>
+              <span class="ai-date">April–May 2026</span>
+            </div>
+            <p>The Department of Government Enablement (DGE) confirmed it is developing an AI-powered platform to identify skill gaps and direct Emirati talent into priority sectors. By 2027, DGE plans to launch more than 10 advanced applications aligned with the UAE Centennial 2071 vision. The Mawaheb Talent Hub — which trained 10,000 Emiratis and facilitated 6,000+ placements in 2025 — is expanding its programmes to include a Software Development Accelerator, Technology Infrastructure Programme, and Strategic Business Intelligence Programme. In partnership with ADGM Academy, the hub targets 620 tech-sector job placements in 2026.</p>
+            <div class="signal">
+              <div class="signal-lbl">⬡ Agentic Transformation Signal</div>
+              <p>The DGE workforce layer is the human infrastructure beneath the agentic AI mandate. AI readiness training becoming a DGE-managed national programme means agentic transformation is being built on a skills base — not just software procurement. For organisations building in Abu Dhabi, DGE partnerships are emerging as a route to talent pipeline access and government AI alignment simultaneously.</p>
+            </div>
+            <div class="ai-src">Sources: <a href="https://unn.ae/index.php/2026/04/16/abu-dhabis-dge-trains-10-000-emiratis-creates-3000-jobs-through-mawaheb-talent-hub/" target="_blank">UAE News Network ↗</a> · <a href="https://www.adgm.com/media/announcements/adgm-academy-and-the-dge-mawaheb-talent-hub-collaborate-to-advance-national-workforce-transformation-in-abu-dhabi-al-ain" target="_blank">ADGM ↗</a></div>
+          </div>
+
+          <div class="ai-item">
+            <div class="ai-item-hd">
+              <h4>ADIS 2026: AI and digital tools embedded in Abu Dhabi's infrastructure delivery model</h4>
+              <span class="ai-date">12–14 May 2026</span>
+            </div>
+            <p>At ADIS 2026, Aldar (a key ADIS delivery partner) highlighted its use of digital tools and AI to reimagine construction delivery at scale — including its Fahid Island masterplan and Fitwel-certified island development. The summit's framing explicitly positioned AI-enabled construction and smart city infrastructure as the execution mechanism for the AED 209bn capital portfolio.</p>
+            <div class="signal">
+              <div class="signal-lbl">⬡ Agentic Transformation Signal</div>
+              <p>When major developers integrating AI into project delivery are positioned as the preferred partners of a government's infrastructure programme, AI capability stops being optional for bidders. Construction and infrastructure companies seeking roles in Abu Dhabi's AED 55bn PPP pipeline or the broader AED 209bn portfolio should expect AI-readiness to become an informal evaluation criterion in tender processes within 12–18 months.</p>
+            </div>
+            <div class="ai-src">Sources: <a href="https://www.zawya.com/en/business/investment/abu-dhabi-infrastructure-summit-unites-developers-investment-bodies-in-57bln-infrastructure-drive-uenp5f2p" target="_blank">Zawya ↗</a> · <a href="https://economymiddleeast.com/news/adis-2026-opens-abu-dhabi-to-address-106-trillion-global-investment-needs-future-development-challenges/" target="_blank">Economy Middle East ↗</a></div>
+          </div>
+
+          <div class="ai-item">
+            <div class="ai-item-hd">
+              <h4>Economy Middle East Summit (21 May): autonomous mobility and AI infrastructure as headline agenda items</h4>
+              <span class="ai-date">Upcoming — 21 May 2026</span>
+            </div>
+            <p>The third Economy Middle East Summit (Rosewood Abu Dhabi, 21 May) confirmed AI & Technology, autonomous mobility, and digital assets as core agenda tracks. The summit will address UAE Level 4 autonomous vehicle deployment — WeRide and Uber already launched fully driverless robotaxi operations in Dubai, with 1,200 robotaxis targeted across Abu Dhabi, Dubai, and Riyadh by 2027. ADGM is the lead partner. Binance (first crypto exchange licensed under ADGM's framework in January 2026) and the Digital Dirham are also on the agenda. Over 1,500 delegates are expected.</p>
+            <div class="signal">
+              <div class="signal-lbl">⬡ Agentic Transformation Signal</div>
+              <p>The summit's agenda is effectively an inventory of deployed agentic systems in the UAE: autonomous vehicles at commercial scale, AI-native finance regulation, digital asset infrastructure. Abu Dhabi is no longer a market where AI transformation is a future ambition — it is a live deployment environment. Organisations not yet present in this ecosystem risk watching it mature without them.</p>
+            </div>
+            <div class="ai-src">Sources: <a href="https://economymiddleeast.com/summit-2026/" target="_blank">Economy Middle East Summit ↗</a> · <a href="https://economymiddleeast.com/news/economy-middle-east-summit-returns-to-abu-dhabi-for-its-third-edition/" target="_blank">Event announcement ↗</a></div>
+          </div>
+
+        </div>
+
+        <!-- 05 UPCOMING EVENTS -->
+        <div class="sec-block">
+          <div class="sec-head">
+            <span class="sec-num">05</span>
+            <span class="sec-title">Upcoming Events & Conferences</span>
+          </div>
+          <div class="events-grid">
+
+            <div class="event-card">
+              <div class="event-date-bar">21 May 2026</div>
+              <div class="event-body">
+                <div class="event-tag">ADGM · ADIO · DED · AI · Economy</div>
+                <h4>Economy Middle East Summit 2026</h4>
+                <p>Third edition — "The Economy of Tomorrow: The UAE Emerges Stronger." 1,500+ delegates. Tracks: AI & Technology, Autonomous Mobility, Digital Assets, Investment, Finance. ADGM lead partner; ADIO and UAE Ministry of Economy as strategic partners.</p>
+                <div class="venue">📍 Rosewood Abu Dhabi</div>
+                <br><a href="https://economymiddleeast.com/summit-2026/" target="_blank">Event details ↗</a>
+              </div>
+            </div>
+
+            <div class="event-card">
+              <div class="event-date-bar">7–10 Dec 2026</div>
+              <div class="event-body">
+                <div class="event-tag">ADGM · ADIO · DED — Finance — Save the Date</div>
+                <h4>Abu Dhabi Finance Week (ADFW) 2026</h4>
+                <p>5th edition. 2025 drew 35,000+ from 175 nationalities, $9 trillion AUM represented. Following a wave of 8 major asset manager commitments in 2026, ADFW 2026 will be the largest in its history.</p>
+                <div class="venue">📍 ADGM, Al Maryah Island</div>
+                <br><a href="https://www.adgm.com/media/announcements/adfw-2025-delivers-its-most-successful-edition-showcasing-abu-dhabis-next-decade-of-growth-with-over-35000-attendees" target="_blank">ADFW details ↗</a>
+              </div>
+            </div>
+
+            <div class="event-card">
+              <div class="event-date-bar">3–6 May 2027</div>
+              <div class="event-body">
+                <div class="event-tag">ADIO · DED · KFED · QCC — Save the Date</div>
+                <h4>Make it in the Emirates 2027</h4>
+                <p>6th edition confirmed. Building on AED 180bn in industrial offtakes and 146,329 visitors from 2026. Planning for exhibitor applications expected to open late 2026.</p>
+                <div class="venue">📍 ADNEC Centre Abu Dhabi</div>
+                <br><a href="https://gulfnews.com/business/make-it-in-the-emirates-2026-opens-with-1245-exhibitors-in-abu-dhabi-1.500528186" target="_blank">Gulf News ↗</a>
+              </div>
+            </div>
+
+            <div class="event-card">
+              <div class="event-date-bar">End 2029</div>
+              <div class="event-body">
+                <div class="event-tag">DCT Abu Dhabi · Yas Island — Long-term</div>
+                <h4>Sphere Abu Dhabi — Opening</h4>
+                <p>$1.7bn immersive venue, first Sphere outside the US. Procurement and construction supply chain activity will ramp progressively from 2026. Watch for contractor announcements and enablement tenders.</p>
+                <div class="venue">📍 Yas Island (between Yas Mall & SeaWorld Abu Dhabi)</div>
+                <br><a href="https://www.prnewswire.com/news-releases/yas-island-to-be-home-of-sphere-abu-dhabi-a-new-global-icon-for-immersive-entertainment-302772533.html" target="_blank">PR Newswire ↗</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 06 WATCH NEXT WEEK -->
+        <div class="sec-block">
+          <div class="sec-head">
+            <span class="sec-num">06</span>
+            <span class="sec-title">What to Watch Next Week</span>
+          </div>
+          <div class="watch-item">
+            <div class="watch-arr">→</div>
+            <div>
+              <h4>Economy Middle East Summit — 21 May, Rosewood Abu Dhabi</h4>
+              <p>ADGM leads this event. H.E. Al Zaabi's participation is expected given past editions. Watch for new financial sector announcements — additional asset manager arrivals, ADGM regulatory updates, Digital Dirham developments, and AI infrastructure policy signals from the Ministry of Economy.</p>
+            </div>
+          </div>
+          <div class="watch-item">
+            <div class="watch-arr">→</div>
+            <div>
+              <h4>ADIO PPP pipeline — first formal tender issuances</h4>
+              <p>The AED 55bn PPP package was announced 11 May with a progressive tender rollout across 2026–27. The first tender documents — likely in the transport sector (AED 35bn, 11 road projects) — could emerge as early as this fortnight. Monitor ADPIC and ADIO procurement channels.</p>
+            </div>
+          </div>
+          <div class="watch-item">
+            <div class="watch-arr">→</div>
+            <div>
+              <h4>Man Group — ADGM Category 3A licence decision</h4>
+              <p>Man Group's ($228.7bn AUM) licence application was submitted on 7 May and is now pending FSRA sign-off. An approval in the next 2–3 weeks would trigger a formal establishment announcement and likely further asset manager follow-ons.</p>
+            </div>
+          </div>
+          <div class="watch-item">
+            <div class="watch-arr">→</div>
+            <div>
+              <h4>Agentic AI — first entity-level rollout announcements from Abu Dhabi</h4>
+              <p>Following Sheikh Mohammed's 12 May review, individual Abu Dhabi entities — particularly DGE (targeting AI-native government by 2027) — are expected to begin announcing their technology partners and implementation timelines. DED, ADGM, and ADIO are the highest-probability sources of early announcements given their digital maturity.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end .page -->
+
+      <div style="background:var(--black);border-top:3px solid var(--red);color:var(--gray-2);text-align:center;padding:1.25rem 2rem;font-size:11px;line-height:1.9;">
+        <p><strong style="color:#fff;">Abu Dhabi Economic Intelligence · Weekly Briefing · Issue #2 · 19 May 2026</strong></p>
+        <p>Generated using Claude AI with live web search. Every fact sourced and linked. For informational purposes only.<br>
+        Sources: <a style="color:var(--red)" href="https://gulfnews.com" target="_blank">Gulf News</a> · <a style="color:var(--red)" href="https://www.thenationalnews.com" target="_blank">The National</a> · <a style="color:var(--red)" href="https://www.zawya.com" target="_blank">Zawya</a> · <a style="color:var(--red)" href="https://www.mediaoffice.abudhabi" target="_blank">Abu Dhabi Media Office</a> · <a style="color:var(--red)" href="https://economymiddleeast.com" target="_blank">Economy Middle East</a> · <a style="color:var(--red)" href="https://mediaoffice.ae" target="_blank">UAE Media Office</a></p>
+      </div>
+
+    </div><!-- end report-may-19 -->
+
+
+    <!-- ═══════════════════════════════════════════
+         REPORT: 12 MAY 2026 — ISSUE #1
+    ════════════════════════════════════════════ -->
+    <div id="report-may-12" class="report-wrap">
+
+      <div class="masthead">
+        <div class="masthead-inner">
+          <div>
+            <div class="masthead-eyebrow">Abu Dhabi Department of Economic Development · Intelligence Report</div>
+            <h1>Weekly Briefing<br><span>12 May 2026</span></h1>
           </div>
           <div class="masthead-meta">
             <strong>Issue #1</strong>
-            Coverage: 8 – 14 May 2026<br>
+            Coverage: 5 – 11 May 2026<br>
             Entities: DED · ADIO · KFED · ADGM · QCC<br>
             Themes: Economic Dev · Agentic AI
           </div>
@@ -978,7 +1183,7 @@
                 <div class="cdot cdot-black"></div>
                 <span class="card-entity">ADGM</span>
                 <span class="badge-hi">⚡ High Impact</span>
-                <span class="date-stamp">7–14 May 2026</span>
+                <span class="date-stamp">7–11 May 2026</span>
               </div>
               <div class="card-bd">
                 <p class="card-what"><strong>Man Group</strong> ($228.7bn AUM) submitted a Category 3A licence application on 7 May. <strong>Capital Group</strong> ($3.3 trillion AUM) announced its first-ever Middle East office at ADGM. <strong>Partners Capital</strong> ($75bn AUM) opened its Abu Dhabi HQ with an MoU with the Abu Dhabi Family Business Council.</p>
@@ -1020,7 +1225,7 @@
                 <span class="date-stamp">4–7 May 2026</span>
               </div>
               <div class="card-bd">
-                <p class="card-what">Fifth and largest-ever edition: <strong>AED 180bn in industrial offtakes</strong>, AED 48.5bn in investments, 200+ agreements, 146,329 visitors (+19% YoY), 1,245 exhibitors at ADNEC. Key deals: TA'ZIZ & Alpha Dhabi AED 36.7bn chemicals at Al Ruwais; KEZAD AED 2.1bn in agreements; Mubadala AED 4.5bn; ADNOC AED 480m across 4 industrial facilities. 6th edition confirmed: 3–6 May 2027.</p>
+                <p class="card-what">Fifth and largest-ever edition: <strong>AED 180bn in industrial offtakes</strong>, AED 48.5bn in investments, 200+ agreements, 146,329 visitors (+19% YoY), 1,245 exhibitors at ADNEC. Key deals: TA'ZIZ & Alpha Dhabi AED 36.7bn chemicals at Al Ruwais; KEZAD AED 2.1bn; Mubadala AED 4.5bn; ADNOC AED 480m across 4 industrial facilities. 6th edition confirmed: 3–6 May 2027.</p>
                 <div class="card-why"><strong>Why it matters:</strong> AED 180bn in offtakes over a decade represents a credible, multi-sector industrial policy. The breadth across chemicals, manufacturing, food, and advanced technology signals economic diversification moving into physical production — not just services.</div>
                 <div class="card-src">Sources: <a href="https://www.travelsdubai.com/09-May-2026/12-biggest-highlights-make-emirates-2026-abu-dhabi" target="_blank">Event summary ↗</a> · <a href="https://gulfnews.com/business/make-it-in-the-emirates-2026-opens-with-1245-exhibitors-in-abu-dhabi-1.500528186" target="_blank">Gulf News ↗</a></div>
               </div>
@@ -1078,19 +1283,6 @@
 
           <div class="ai-item">
             <div class="ai-item-hd">
-              <h4>Ministry of Energy & Infrastructure — First AI Forum with agentic roadmap</h4>
-              <span class="ai-date">11 May 2026</span>
-            </div>
-            <p>The Ministry hosted its First Artificial Intelligence Forum, launching an internal roadmap to expand AI across energy, infrastructure and transportation sectors, as part of the federal 50% agentic initiative.</p>
-            <div class="signal">
-              <div class="signal-lbl">⬡ Agentic Transformation Signal</div>
-              <p>Infrastructure ministries adopting agentic AI will reshape permitting, approvals, procurement and compliance. Organisations interacting with these ministries should anticipate AI-native interfaces replacing manual touchpoints within 12–18 months.</p>
-            </div>
-            <div class="ai-src">Source: <a href="https://www.voiceofemirates.com/en/emirates/2026/05/11/a-new-roadmap-to-accelerate-the-use-of-artificial-intelligence-in-government-services-in-the-uae/" target="_blank">Voice of Emirates ↗</a></div>
-          </div>
-
-          <div class="ai-item">
-            <div class="ai-item-hd">
               <h4>QCC deploys AI in toxicology testing; KFED backs AI-in-healthcare SME</h4>
               <span class="ai-date">4–12 May 2026</span>
             </div>
@@ -1120,17 +1312,6 @@
                 <p>Third edition themed "The Economy of Tomorrow." 1,500+ delegates. Covers AI, investment, digital assets, energy. Keynote by Minister of Tolerance.</p>
                 <div class="venue">📍 Rosewood Abu Dhabi</div>
                 <br><a href="https://economymiddleeast.com/news/economy-middle-east-summit-returns-to-abu-dhabi-for-its-third-edition/" target="_blank">Event details ↗</a>
-              </div>
-            </div>
-
-            <div class="event-card">
-              <div class="event-date-bar">24 May 2026</div>
-              <div class="event-body">
-                <div class="event-tag">DED · SME · Investment</div>
-                <h4>DED Investment Innovation SME Manufacturing Show</h4>
-                <p>Focus on SME manufacturing, investment innovation, and business growth within Abu Dhabi's ecosystem.</p>
-                <div class="venue">📍 Abu Dhabi · DED</div>
-                <br><a href="https://www.added.gov.ae/en/news-and-highlights/events" target="_blank">DED events page ↗</a>
               </div>
             </div>
 
@@ -1197,32 +1378,20 @@
 
       </div><!-- end .page -->
 
-      <div class="report-footer">
-        <p><strong style="color:#fff;">Abu Dhabi Economic Intelligence · Weekly Briefing · Issue #1 · 14 May 2026</strong></p>
+      <div style="background:var(--black);border-top:3px solid var(--red);color:var(--gray-2);text-align:center;padding:1.25rem 2rem;font-size:11px;line-height:1.9;">
+        <p><strong style="color:#fff;">Abu Dhabi Economic Intelligence · Weekly Briefing · Issue #1 · 12 May 2026</strong></p>
         <p>Generated using Claude AI with live web search. Every fact sourced and linked. For informational purposes only.<br>
-        Sources: <a href="https://gulfnews.com" target="_blank">Gulf News</a> · <a href="https://www.thenationalnews.com" target="_blank">The National</a> · <a href="https://www.zawya.com" target="_blank">Zawya</a> · <a href="https://www.mediaoffice.abudhabi" target="_blank">Abu Dhabi Media Office</a> · <a href="https://www.khaleejtimes.com" target="_blank">Khaleej Times</a></p>
+        Sources: <a style="color:var(--red)" href="https://gulfnews.com" target="_blank">Gulf News</a> · <a style="color:var(--red)" href="https://www.thenationalnews.com" target="_blank">The National</a> · <a style="color:var(--red)" href="https://www.zawya.com" target="_blank">Zawya</a> · <a style="color:var(--red)" href="https://www.mediaoffice.abudhabi" target="_blank">Abu Dhabi Media Office</a> · <a style="color:var(--red)" href="https://www.khaleejtimes.com" target="_blank">Khaleej Times</a></p>
       </div>
 
-    </div><!-- end report-may-14 -->
+    </div><!-- end report-may-12 -->
 
   </div><!-- end .content -->
 
-</div><!-- end .desktop-shell -->
+</div><!-- end .main -->
 
 <script>
-  // ── DRAWER (mobile) ──
-  function openDrawer() {
-    document.getElementById('mobile-drawer').classList.add('open');
-    document.getElementById('drawer-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeDrawer() {
-    document.getElementById('mobile-drawer').classList.remove('open');
-    document.getElementById('drawer-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  // ── MONTH ACCORDION ──
+  // Toggle month accordion
   function toggleMonth(header) {
     const weekList = header.nextElementSibling;
     const isOpen = header.classList.contains('open');
@@ -1230,38 +1399,22 @@
     weekList.classList.toggle('open', !isOpen);
   }
 
-  // ── SHOW REPORT ──
-  function showReport(id, clickedEl) {
+  // Show a specific report
+  function showReport(id, clickedItem) {
     // Hide all reports
     document.querySelectorAll('.report-wrap').forEach(r => r.style.display = 'none');
-
     // Show selected
     const target = document.getElementById(id);
     if (target) {
       target.style.display = 'block';
-      // On desktop, scroll the content area; on mobile, scroll the window
-      const contentArea = document.getElementById('content-area');
-      if (contentArea && contentArea.scrollHeight > contentArea.clientHeight) {
-        contentArea.scrollTop = 0;
-      } else {
-        window.scrollTo({ top: 0 });
-      }
+      document.getElementById('content-area').scrollTop = 0;
     }
-
-    // Update active state across ALL sidebar nav items (desktop + mobile)
+    // Update active state in sidebar
     document.querySelectorAll('.week-item').forEach(w => w.classList.remove('active'));
-    // Mark both instances (desktop sidebar + mobile drawer) for this report
-    document.querySelectorAll('.week-item:not(.empty)').forEach(w => {
-      if (w.onclick && w.onclick.toString().includes(id)) {
-        w.classList.add('active');
-      }
-    });
-
-    // Close drawer on mobile after selection
-    closeDrawer();
+    if (clickedItem) clickedItem.classList.add('active');
   }
 
-  // ── INIT ──
+  // Init: show only the most recent report (Issue #2)
   document.querySelectorAll('.report-wrap').forEach((r, i) => {
     r.style.display = i === 0 ? 'block' : 'none';
   });
